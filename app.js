@@ -4,11 +4,13 @@ var picArray = [];
 var picOne = document.getElementById('imgOne');
 var picTwo = document.getElementById('imgTwo');
 var picThree = document.getElementById('imgThree');
+
 //random number function from MDN
 function randomIndex(max) {
-  return Math.floor(Math.random()+Math.floor(max));
+  return Math.floor(Math.random()*Math.floor(max));
 }
-//make a constructor function for images
+
+//make a constructor function for images so that they are also saved into a global array
 function Picture(src,name) {
   this.src = `../images/${src}.jpg`;
   this.title = name;
@@ -18,6 +20,7 @@ function Picture(src,name) {
   picArray.push(this);
 }
 
+// function to upload pictures into the array
 function createOnPageLoad() {
   new Picture('bag','StarWars themed carry-on');
   new Picture('banana','Banana Slicer');
@@ -40,22 +43,47 @@ function createOnPageLoad() {
   new Picture('water-can','A pointless watercan');
   new Picture('wine-glass','Wine glass to sniff and drink at the same time');
 }
-// function generateImages() {
-//   var indexOne = randomIndex(picArray.length);
+// // generate the images into the page
 
-//   picOne.src = picArray[index].src;
-//   picOne[index].viewed ++;
+function generateImages() {
+  // generate the first image
+  var indexOne = randomIndex(picArray.length);
+  console.log('index one',indexOne);
+
+  picOne.src = picArray[indexOne].src;
+
+  picArray[indexOne].viewed ++;
+
+  console.log('this is the 1st viewed count',picArray[indexOne].viewed);
+// generate second index, make sure it is different from the first and then show it
+  var indexTwo = randomIndex(picArray.length);
   
-//   var indexTwo = randomIndex(picArray.length);
+  while(indexOne===indexTwo) {
+    indexTwo = randomIndex(picArray.length);
+  }
+  console.log('index two', indexTwo);
+
+  picTwo.src = picArray[indexTwo].src;
+  picArray[indexTwo].viewed ++;
+
+  console.log('this is the 2nd viewed count',picArray[indexTwo].viewed);
+
+  //generate the third image
+  var indexThree = randomIndex(picArray.length);
+
+  while(indexThree===indexTwo||indexThree===indexOne){
+    indexThree = randomIndex(picArray.length);
+  }
+  console.log('index three', indexThree);
+
+  picThree.src = picArray[indexThree].src;
+  picArray[indexThree].viewed ++;
   
-//   while(indexOne===indexTwo) {
-//     indexTwo = randomIndex(picArray.length);
-//   }
-  
-//   picTwo.src = picArray[indexTwo].src;
-//   picTwo[indexTwo].viewed ++;
-  
-// }
+  console.log('this is the 3rd viewed count',picArray[indexThree].viewed);
+  console.table(picArray);
+
+}
+
 // fucntion handleClick (){
 //   var vote = event.target.title;
 //   // var clickVote = event.target.index
@@ -69,4 +97,5 @@ function createOnPageLoad() {
 //   generateImages();
 // }
 createOnPageLoad();
-console.table(picArray);
+generateImages();
+// console.table(picArray);
