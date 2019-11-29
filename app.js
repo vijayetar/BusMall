@@ -4,7 +4,12 @@ var picArray = [];
 var picOne = document.getElementById('imgOne');
 var picTwo = document.getElementById('imgTwo');
 var picThree = document.getElementById('imgThree');
+var titleOne = document.getElementById('figOne');
+var titleTwo = document.getElementById('figTwo');
+var titleThree = document.getElementById('figThree');
+var titleCaptions = document.getElementById('captions');
 var count = 0;
+var mostClicked = '';
 
 //random number function from MDN
 function randomIndex(max) {
@@ -53,10 +58,13 @@ function generateImages() {
 
   picOne.src = picArray[indexOne].src;
   picOne.alt = picArray[indexOne].alt;
+  titleOne.textContent = picArray[indexOne].alt;
+  titleCaptions.appendChild(titleOne);
 
   picArray[indexOne].viewed ++;
 
-  // console.log('this is the 1st viewed count',picArray[indexOne].viewed);
+//  // console.log('this is the 1st viewed count',picArray[indexOne].viewed);
+
 // generate second index, make sure it is different from the first and then show it
   var indexTwo = randomIndex(picArray.length);
   
@@ -67,6 +75,8 @@ function generateImages() {
 
   picTwo.src = picArray[indexTwo].src;
   picTwo.alt = picArray[indexTwo].alt;
+  titleTwo.textContent = picArray[indexTwo].alt;
+  titleCaptions.appendChild(titleTwo);
 
   picArray[indexTwo].viewed ++;
 
@@ -82,23 +92,14 @@ function generateImages() {
 
   picThree.src = picArray[indexThree].src;
   picThree.alt = picArray[indexThree].alt;
-  picArray[indexThree].viewed ++;
-  
-  // console.log('this is the 3rd viewed count',picArray[indexThree].viewed);
-  // console.table(picArray);
+  titleThree.textContent = picArray[indexThree].alt;
+  titleCaptions.appendChild(titleThree);
 
-  // add ability to click and vote for image
-  
-  if (count === 5) {
-    console.log('countdown completed');
-    endTest();
-    return count;
-  } else {
-    console.log('this is the count',count);
-    picOne.addEventListener('click',handleClick,false);
-    picTwo.addEventListener('click',handleClick,false);
-    picThree.addEventListener('click',handleClick,false);
-  }
+  picArray[indexThree].viewed ++;
+
+  picOne.addEventListener('click',handleClick,false);
+  picTwo.addEventListener('click',handleClick,false);
+  picThree.addEventListener('click',handleClick,false);
 }
 
 
@@ -117,24 +118,50 @@ function handleClick(event) {
       console.log('this is what i clicked',picArray[i].alt);
     }
   }
-  // if (count === 5) {
-  //   console.log('countdown completed');
-  //   endTest();
-  //   return;
-  // } else {
-  console.log('this is the count',count);
-  generateImages();
-  // }
+  if (count === 25) {
+    console.log('countdown completed');
+    picOne.removeEventListener('click',handleClick);
+    picTwo.removeEventListener('click',handleClick);
+    picThree.removeEventListener('click',handleClick);
+    mostViewed();
+    endTest();
+    return;
+  } else {
+    console.log('this is the current count',count);
+    generateImages();
+  }
 
 }
 
 function endTest(){
-
+  event.preventDefault();
   var result = document.getElementById('results');
   var countdown = document.getElementById('countdown');
-  countdown.textContent = `You clicked total ${count} times`;
+  countdown.textContent = `You clicked total ${count} times. Thank you for your participation!`;
+  countdown.textContent += mostClicked;
   result.appendChild(countdown);
+  console.table(picArray);
 
+}
+
+function mostViewed() {
+  var viewCount = 0;
+  var indexNo = 0;
+  for (var i = 0; i<picArray.length; i++) {
+    if (viewCount< picArray[i].clicked) {
+      viewCount = picArray[i].clicked;
+      indexNo = i;
+      mostClicked = '';
+    } 
+    else {
+      if (viewCount === picArray[i].clicked) {
+        indexNo = i;
+        mostClicked = ' There were more than one items you liked! '
+      }         
+    }
+  }    
+  mostClicked += `  This is the item most preferred by you ${picArray[indexNo].alt}`;
+  return mostClicked;
 }
 
 createOnPageLoad();
