@@ -1,6 +1,5 @@
 'use strict';
-//global variables
-var picArray = [];
+//DOM variables
 var picOne = document.getElementById('imgOne');
 var picTwo = document.getElementById('imgTwo');
 var picThree = document.getElementById('imgThree');
@@ -8,8 +7,13 @@ var titleOne = document.getElementById('figOne');
 var titleTwo = document.getElementById('figTwo');
 var titleThree = document.getElementById('figThree');
 var titleCaptions = document.getElementById('captions');
+var tableResults = document.getElementById('tableResults');
+
+//global variables
 var count = 0;
 var mostClicked = '';
+var picArray = [];
+var attempts = 25;
 
 //random number function from MDN
 function randomIndex(max) {
@@ -50,20 +54,18 @@ function createOnPageLoad() {
   new Picture('wine-glass','Wine glass to sniff and drink at the same time');
 }
 // // generate the images into the page
-
 function generateImages() {
   // generate the first image
   var indexOne = randomIndex(picArray.length);
-  console.log('index one',indexOne);
-
+// get the images into the page
   picOne.src = picArray[indexOne].src;
   picOne.alt = picArray[indexOne].alt;
+
+  // enter the names into the fig captions
   titleOne.textContent = picArray[indexOne].alt;
   titleCaptions.appendChild(titleOne);
 
   picArray[indexOne].viewed ++;
-
-//  // console.log('this is the 1st viewed count',picArray[indexOne].viewed);
 
 // generate second index, make sure it is different from the first and then show it
   var indexTwo = randomIndex(picArray.length);
@@ -71,16 +73,15 @@ function generateImages() {
   while(indexOne===indexTwo) {
     indexTwo = randomIndex(picArray.length);
   }
-  console.log('index two', indexTwo);
 
   picTwo.src = picArray[indexTwo].src;
   picTwo.alt = picArray[indexTwo].alt;
+
+  // enter the names into the fig captions
   titleTwo.textContent = picArray[indexTwo].alt;
   titleCaptions.appendChild(titleTwo);
 
   picArray[indexTwo].viewed ++;
-
-  // console.log('this is the 2nd viewed count',picArray[indexTwo].viewed);
 
   //generate the third image
   var indexThree = randomIndex(picArray.length);
@@ -88,10 +89,11 @@ function generateImages() {
   while(indexThree===indexTwo||indexThree===indexOne){
     indexThree = randomIndex(picArray.length);
   }
-  console.log('index three', indexThree);
 
   picThree.src = picArray[indexThree].src;
   picThree.alt = picArray[indexThree].alt;
+
+  // enter the names into the fig captions
   titleThree.textContent = picArray[indexThree].alt;
   titleCaptions.appendChild(titleThree);
 
@@ -106,25 +108,24 @@ function generateImages() {
 
 function handleClick(event) {
   event.preventDefault();
-  console.log('click worked');
+  // console.log('click worked');
   var vote = event.target.alt;
-  console.log('this is the vote', vote);
   //loop to check what I clicked and add a value to it
   for (var i =0; i<picArray.length; i++){
     if (vote === picArray[i].alt)
     {
       picArray[i].clicked ++;
       count ++;
-      console.log('this is what i clicked',picArray[i].alt);
+      // console.log('this is what i clicked',picArray[i].alt);
     }
   }
-  if (count === 25) {
+  if (count === attempts) {
     console.log('countdown completed');
     picOne.removeEventListener('click',handleClick);
     picTwo.removeEventListener('click',handleClick);
     picThree.removeEventListener('click',handleClick);
     mostViewed();
-    endTest();
+    footerComment();
     return;
   } else {
     console.log('this is the current count',count);
@@ -133,11 +134,11 @@ function handleClick(event) {
 
 }
 
-function endTest(){
-  event.preventDefault();
+//generate results of the participation exercise into the footer
+function footerComment(){
   var result = document.getElementById('results');
   var countdown = document.getElementById('countdown');
-  countdown.textContent = `You clicked total ${count} times. Thank you for your participation!`;
+  countdown.textContent = `Thank you for your participation! You clicked total ${count} times.`;
   countdown.textContent += mostClicked;
   result.appendChild(countdown);
   console.table(picArray);
@@ -159,9 +160,21 @@ function mostViewed() {
         mostClicked = ' There were more than one items you liked! '
       }         
     }
-  }    
-  mostClicked += `  This is the item most preferred by you ${picArray[indexNo].alt}`;
+  }
+  generateTable(); 
+  var percentage = Math.floor((picArray[indexNo].clicked/picArray[indexNo].viewed)*100);   
+  mostClicked += `  You preferred this item the most ${picArray[indexNo].alt} and you preferred it ${percentage} percent of the times it was viewed. `;
   return mostClicked;
+}
+
+function generateTable() {
+  for (var i = 0; i<picArray.length; i++) {
+    var trEl = document.createElement('tr');
+    var tdEl = document.createElement('td');
+    tdEl.textContent = ` ${picArray[i].title} was viewed ${picArray[i].viewed} and was clicked ${picArray[i].clicked} no of times.`;
+    trEl.appendChild(tdEl);
+    tableResults.appendChild(trEl);
+  }
 }
 
 createOnPageLoad();
