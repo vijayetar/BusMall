@@ -163,7 +163,7 @@ function mostViewed() {
   }
   generateTable(); 
   var percentage = Math.floor((picArray[indexNo].clicked/picArray[indexNo].viewed)*100);   
-  mostClicked += `  You preferred this item the most ${picArray[indexNo].alt} and you preferred it ${percentage} percent of the times it was viewed. `;
+  mostClicked += `  You preferred this item the most ${picArray[indexNo].alt} and you clicked it ${percentage} percent of the times it was viewed. `;
   return mostClicked;
 }
 
