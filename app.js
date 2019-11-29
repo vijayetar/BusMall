@@ -171,7 +171,7 @@ function generateTable() {
   for (var i = 0; i<picArray.length; i++) {
     var trEl = document.createElement('tr');
     var tdEl = document.createElement('td');
-    tdEl.textContent = ` ${picArray[i].title} was viewed ${picArray[i].viewed} and was clicked ${picArray[i].clicked} no of times.`;
+    tdEl.textContent = ` ${picArray[i].title} had ${picArray[i].clicked} votes and was shown ${picArray[i].viewed} times.`;
     trEl.appendChild(tdEl);
     tableResults.appendChild(trEl);
   }
