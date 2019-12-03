@@ -73,6 +73,7 @@ footer, table {
   padding: 10px;
   word-wrap: normal;
   line-height: 2em;
+  /* display:none; */
 }
 footer h3 {
   font-size: 30px;
