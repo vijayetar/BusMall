@@ -8,8 +8,8 @@ var titleTwo = document.getElementById('figTwo');
 var titleThree = document.getElementById('figThree');
 var titleCaptions = document.getElementById('captions');
 var tableResults = document.getElementById('tableResults');
-var list=document.getElementById('list');
-var graph=document.getElementById('graph');
+var list = document.getElementById('list');
+var graph = document.getElementById('graph');
 
 
 //global variables
@@ -67,15 +67,17 @@ function createOnPageLoad() {
 }
 // // generate the images into the page
 function generateImages() {
+
   // generate the first image
   var indexOne = randomIndex(picArray.length);
 
-  // while(indexArray.includes(indexOne)){
-  //   console.log('inside the whileloop while it is true with indexOne');
-  //   indexOne = randomIndex(picArray.length);
-  // };
+  while(indexArray.includes(indexOne)) {
+    console.log('inside the whileloop while it is true with indexOne');
+    indexOne = randomIndex(picArray.length);
+  };
 
-  // indexArray.push(indexOne);
+  indexArray.push(indexOne);
+
   // get the images into the page
   picOne.src = picArray[indexOne].src;
   picOne.alt = picArray[indexOne].alt;
@@ -86,19 +88,15 @@ function generateImages() {
 
   picArray[indexOne].viewed ++;
 
-// generate second index, make sure it is different from the first and then show it
+  // generate second index, make sure it is different from the first and then show it
   var indexTwo = randomIndex(picArray.length);
 
-  // while(indexArray.includes(indexTwo)){
-  //   console.log('inside the whileloop while it is true with indexTwo');
-  //   indexTwo = randomIndex(picArray.length);
-  // };
-
-  while(indexOne===indexTwo) {
+  while(indexArray.includes(indexTwo)){
+    console.log('inside the whileloop while it is true with indexTwo');
     indexTwo = randomIndex(picArray.length);
-  }
+  };
 
-  // indexArray.push(indexTwo);
+  indexArray.push(indexTwo);
 
   picTwo.src = picArray[indexTwo].src;
   picTwo.alt = picArray[indexTwo].alt;
@@ -112,16 +110,11 @@ function generateImages() {
   //generate the third image
   var indexThree = randomIndex(picArray.length);
 
-  // while(indexArray.includes(indexThree)){
-  //   console.log('inside the whileloop while it is true with indexThree');
-  //   indexThree = randomIndex(picArray.length);
-  // };
-
-  while(indexThree===indexTwo||indexThree===indexOne){
+  while(indexArray.includes(indexThree)){
+    console.log('inside the whileloop while it is true with indexThree');
     indexThree = randomIndex(picArray.length);
-  }
-  indexArray.push(indexOne);
-  indexArray.push(indexTwo);
+  };
+
   indexArray.push(indexThree);
 
   console.log('this is the indexArray',indexArray);
@@ -134,6 +127,14 @@ function generateImages() {
   titleCaptions.appendChild(titleThree);
 
   picArray[indexThree].viewed ++;
+  
+// to make sure that the next three images are not the same as the last three images
+  if(indexArray.length === 6) {
+    for (var i=0; i<3; i++){
+      indexArray.shift();
+    }
+    console.log('this is the NEW indexArray',indexArray);
+  }
 
   picOne.addEventListener('click',handleClick,false);
   picTwo.addEventListener('click',handleClick,false);
@@ -244,57 +245,57 @@ function generateGraph() {
             data: clickArray,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
                 'rgba(255, 99, 132, 0.2)'
 
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
                 'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
                 'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
                 'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
                 'rgba(255, 99, 132, 1)'
 
             ],
@@ -375,6 +376,3 @@ function generateGraph() {
 createOnPageLoad();
 generateImages();
 generateGraph();
-
-// console.log('here we go again');
-// console.table(picArray);
