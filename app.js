@@ -9,15 +9,23 @@ var titleThree = document.getElementById('figThree');
 var titleCaptions = document.getElementById('captions');
 var tableResults = document.getElementById('tableResults');
 var list=document.getElementById('list');
+var graph=document.getElementById('graph');
+
 
 //global variables
 var count = 0;
 var mostClicked = '';
 var picArray = [];
 var attempts = 25;
+var indexArray = [];
+var clickArray=[];
+var viewArray=[];
+var nameArray=[];
 
+//what sections are hidden
 hide(tableResults);
 hide(list);
+hide(graph);
 
 //random number function from MDN
 function randomIndex(max) {
@@ -61,7 +69,14 @@ function createOnPageLoad() {
 function generateImages() {
   // generate the first image
   var indexOne = randomIndex(picArray.length);
-// get the images into the page
+
+  // while(indexArray.includes(indexOne)){
+  //   console.log('inside the whileloop while it is true with indexOne');
+  //   indexOne = randomIndex(picArray.length);
+  // };
+
+  // indexArray.push(indexOne);
+  // get the images into the page
   picOne.src = picArray[indexOne].src;
   picOne.alt = picArray[indexOne].alt;
 
@@ -73,10 +88,17 @@ function generateImages() {
 
 // generate second index, make sure it is different from the first and then show it
   var indexTwo = randomIndex(picArray.length);
-  
+
+  // while(indexArray.includes(indexTwo)){
+  //   console.log('inside the whileloop while it is true with indexTwo');
+  //   indexTwo = randomIndex(picArray.length);
+  // };
+
   while(indexOne===indexTwo) {
     indexTwo = randomIndex(picArray.length);
   }
+
+  // indexArray.push(indexTwo);
 
   picTwo.src = picArray[indexTwo].src;
   picTwo.alt = picArray[indexTwo].alt;
@@ -90,9 +112,19 @@ function generateImages() {
   //generate the third image
   var indexThree = randomIndex(picArray.length);
 
+  // while(indexArray.includes(indexThree)){
+  //   console.log('inside the whileloop while it is true with indexThree');
+  //   indexThree = randomIndex(picArray.length);
+  // };
+
   while(indexThree===indexTwo||indexThree===indexOne){
     indexThree = randomIndex(picArray.length);
   }
+  indexArray.push(indexOne);
+  indexArray.push(indexTwo);
+  indexArray.push(indexThree);
+
+  console.log('this is the indexArray',indexArray);
 
   picThree.src = picArray[indexThree].src;
   picThree.alt = picArray[indexThree].alt;
@@ -128,8 +160,12 @@ function handleClick(event) {
     picThree.removeEventListener('click',handleClick);
     show(tableResults);
     show(list);
+    show(graph);
     mostViewed();
-    footerComment();
+    sectionComment();
+    makeclicknameandviewarray();
+    // generateGraph();
+
     return;
   } else {
     console.log('this is the current count',count);
@@ -139,7 +175,7 @@ function handleClick(event) {
 }
 
 //generate results of the participation exercise into the footer
-function footerComment(){
+function sectionComment(){
   var result = document.getElementById('results');
   var countdown = document.getElementById('countdown');
   countdown.textContent = `Thank you for your participation! You clicked total ${count} times.`;
@@ -189,8 +225,156 @@ function show(elem) {
   elem.style.display = 'block';
 }
 
+function makeclicknameandviewarray() {
+  for (var k=0; k<picArray.length; k++) {
+    clickArray.push(picArray[k].clicked);
+    viewArray.push(picArray[k].viewed);
+    nameArray.push(picArray[k].title);
+  }
+}
+
+function generateGraph() {
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: nameArray,
+        datasets: [{
+            label: '# Clicked',
+            data: clickArray,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)'
+
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)'
+
+            ],
+            borderWidth: 2
+        },
+        {
+          label: '# Viewed',
+          data: viewArray,
+          backgroundColor: [
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)'
+          ],
+          borderColor: [
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)'
+          ],
+          borderWidth: 2
+      }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+  });
+}
+
 createOnPageLoad();
 generateImages();
+generateGraph();
 
 // console.log('here we go again');
 // console.table(picArray);
