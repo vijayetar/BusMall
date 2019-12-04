@@ -8,12 +8,16 @@ var titleTwo = document.getElementById('figTwo');
 var titleThree = document.getElementById('figThree');
 var titleCaptions = document.getElementById('captions');
 var tableResults = document.getElementById('tableResults');
+var list=document.getElementById('list');
 
 //global variables
 var count = 0;
 var mostClicked = '';
 var picArray = [];
 var attempts = 25;
+
+hide(tableResults);
+hide(list);
 
 //random number function from MDN
 function randomIndex(max) {
@@ -104,8 +108,6 @@ function generateImages() {
   picThree.addEventListener('click',handleClick,false);
 }
 
-
-
 function handleClick(event) {
   event.preventDefault();
   // console.log('click worked');
@@ -124,6 +126,8 @@ function handleClick(event) {
     picOne.removeEventListener('click',handleClick);
     picTwo.removeEventListener('click',handleClick);
     picThree.removeEventListener('click',handleClick);
+    show(tableResults);
+    show(list);
     mostViewed();
     footerComment();
     return;
@@ -178,11 +182,11 @@ function generateTable() {
 }
 
 function hide(elem) {
-  elem.style.display = none;
+  elem.style.display = 'none';
 }
 
 function show(elem) {
-  elem.style.display = block;
+  elem.style.display = 'block';
 }
 
 createOnPageLoad();
