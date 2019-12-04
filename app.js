@@ -13,10 +13,12 @@ var graph = document.getElementById('graph');
 
 
 //global variables
-var count = 0;
+var images = 3;
+var imageArray = [picOne, picTwo, picThree];
+var titleArray = [titleOne, titleTwo, titleThree];
+var attempts = 25;
 var mostClicked = '';
 var picArray = [];
-var attempts = 25;
 var indexArray = [];
 var clickArray=[];
 var viewArray=[];
@@ -51,7 +53,7 @@ function createOnPageLoad() {
   new Picture('breakfast','Toast Cofee and Egg maker');
   new Picture('bubblegum', 'Meatball Bubble Gum');
   new Picture('chair','Hyperbolic Red Chair');
-  new Picture('cthulhu','Not sure what this is');
+  new Picture('cthulhu','green monster');
   new Picture('dog-duck', 'Duck mouthpiece for dog');
   new Picture('dragon', 'Dragon meat not for faint hearted');
   new Picture('pen','Blue Cutlery Pen Caps');
@@ -65,80 +67,36 @@ function createOnPageLoad() {
   new Picture('water-can','A pointless watercan');
   new Picture('wine-glass','Wine glass to sniff and drink at the same time');
 }
-// // generate the images into the page
-function generateImages() {
 
-  // generate the first image
-  var indexOne = randomIndex(picArray.length);
+function generateLoopImages() {
+  for (var i = 0; i<images; i++) {
+    var indexNumber = randomIndex(picArray.length);
+    while(indexArray.includes(indexNumber)){
+      indexNumber = randomIndex(picArray.length);
+      console.log('inside the whileloop while it is true with indexNumber');
+    }
+    indexArray.push(indexNumber);
+    // get the images into the page
+    imageArray[i].src = picArray[indexNumber].src;
+    imageArray[i].alt = picArray[indexNumber].alt;
+    // count viewed images
+    picArray[indexNumber].viewed++ ;
+    // enter the names into the fig captions
+    titleArray[i].textContent = picArray[indexNumber].alt;
+    titleCaptions.appendChild(titleArray[i]);
+    imageArray[i].addEventListener('click',handleClick,false);
 
-  while(indexArray.includes(indexOne)) {
-    console.log('inside the whileloop while it is true with indexOne');
-    indexOne = randomIndex(picArray.length);
-  };
-
-  indexArray.push(indexOne);
-
-  // get the images into the page
-  picOne.src = picArray[indexOne].src;
-  picOne.alt = picArray[indexOne].alt;
-
-  // enter the names into the fig captions
-  titleOne.textContent = picArray[indexOne].alt;
-  titleCaptions.appendChild(titleOne);
-
-  picArray[indexOne].viewed ++;
-
-  // generate second index, make sure it is different from the first and then show it
-  var indexTwo = randomIndex(picArray.length);
-
-  while(indexArray.includes(indexTwo)){
-    console.log('inside the whileloop while it is true with indexTwo');
-    indexTwo = randomIndex(picArray.length);
-  };
-
-  indexArray.push(indexTwo);
-
-  picTwo.src = picArray[indexTwo].src;
-  picTwo.alt = picArray[indexTwo].alt;
-
-  // enter the names into the fig captions
-  titleTwo.textContent = picArray[indexTwo].alt;
-  titleCaptions.appendChild(titleTwo);
-
-  picArray[indexTwo].viewed ++;
-
-  //generate the third image
-  var indexThree = randomIndex(picArray.length);
-
-  while(indexArray.includes(indexThree)){
-    console.log('inside the whileloop while it is true with indexThree');
-    indexThree = randomIndex(picArray.length);
-  };
-
-  indexArray.push(indexThree);
-
+  }
   console.log('this is the indexArray',indexArray);
 
-  picThree.src = picArray[indexThree].src;
-  picThree.alt = picArray[indexThree].alt;
-
-  // enter the names into the fig captions
-  titleThree.textContent = picArray[indexThree].alt;
-  titleCaptions.appendChild(titleThree);
-
-  picArray[indexThree].viewed ++;
-  
-// to make sure that the next three images are not the same as the last three images
+  // to make sure that the next three images are not the same as the last three images
   if(indexArray.length === 6) {
-    for (var i=0; i<3; i++){
+    for (var k=0; k<3; k++){
       indexArray.shift();
     }
     console.log('this is the NEW indexArray',indexArray);
   }
 
-  picOne.addEventListener('click',handleClick,false);
-  picTwo.addEventListener('click',handleClick,false);
-  picThree.addEventListener('click',handleClick,false);
 }
 
 function handleClick(event) {
@@ -150,27 +108,25 @@ function handleClick(event) {
     if (vote === picArray[i].alt)
     {
       picArray[i].clicked ++;
-      count ++;
-      // console.log('this is what i clicked',picArray[i].alt);
+      attempts --;
     }
   }
-  if (count === attempts) {
+  if (attempts === 0) {
     console.log('countdown completed');
-    picOne.removeEventListener('click',handleClick);
-    picTwo.removeEventListener('click',handleClick);
-    picThree.removeEventListener('click',handleClick);
+    for (var j=0; j<imageArray.length; j++){
+      imageArray[j].removeEventListener('click',handleClick);
+    }
     show(tableResults);
     show(list);
     show(graph);
     mostViewed();
     sectionComment();
     makeclicknameandviewarray();
-    // generateGraph();
 
     return;
   } else {
-    console.log('this is the current count',count);
-    generateImages();
+    // console.log('this is the current count',attempts);
+    generateLoopImages();
   }
 
 }
@@ -179,7 +135,7 @@ function handleClick(event) {
 function sectionComment(){
   var result = document.getElementById('results');
   var countdown = document.getElementById('countdown');
-  countdown.textContent = `Thank you for your participation! You clicked total ${count} times.`;
+  countdown.textContent = 'Thank you for your participation!';
   countdown.textContent += mostClicked;
   result.appendChild(countdown);
   console.table(picArray);
@@ -194,16 +150,16 @@ function mostViewed() {
       viewCount = picArray[i].clicked;
       indexNo = i;
       mostClicked = '';
-    } 
+    }
     else {
       if (viewCount === picArray[i].clicked) {
         indexNo = i;
-        mostClicked = ' There were more than one items you liked! '
-      }         
+        mostClicked = ' There were more than one items you liked! ';
+      }
     }
   }
-  generateTable(); 
-  var percentage = Math.floor((picArray[indexNo].clicked/picArray[indexNo].viewed)*100);   
+  generateTable();
+  var percentage = Math.floor((picArray[indexNo].clicked/picArray[indexNo].viewed)*100);
   mostClicked += `  You preferred this item the most ${picArray[indexNo].alt} and you clicked it ${percentage} percent of the times it was viewed. `;
   return mostClicked;
 }
@@ -239,140 +195,140 @@ function generateGraph() {
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: nameArray,
-        datasets: [{
-            label: '# Clicked',
-            data: clickArray,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)'
+      labels: nameArray,
+      datasets: [{
+        label: '# Clicked',
+        data: clickArray,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 0.2)'
 
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 99, 132, 1)'
 
-            ],
-            borderWidth: 2
-        },
-        {
-          label: '# Viewed',
-          data: viewArray,
-          backgroundColor: [
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)',
-              'rgba(0,0,0,0.2)'
-          ],
-          borderColor: [
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)',
-            'rgba(0,0,0,0.2)'
-          ],
-          borderWidth: 2
+        ],
+        borderWidth: 2
+      },
+      {
+        label: '# Viewed',
+        data: viewArray,
+        backgroundColor: [
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)'
+        ],
+        borderColor: [
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)',
+          'rgba(0,0,0,0.2)'
+        ],
+        borderWidth: 2
       }]
     },
     options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
     }
   });
 }
 
 createOnPageLoad();
-generateImages();
 generateGraph();
+generateLoopImages();
