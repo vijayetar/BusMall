@@ -21,6 +21,7 @@ section, article {
 img, figcaption {
   margin: 2px 0px 0px 0px;
   padding: 1px;
+  text-transform: capitalize;
 }
 
 main> div {
