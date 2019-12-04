@@ -64,7 +64,7 @@ h3, h3+ul, table {
   padding: 10px;
 }
 
-footer, table {
+table {
   width: 100%;
   height: 170px;
   background-color: whitesmoke;
@@ -75,7 +75,7 @@ footer, table {
   line-height: 2em;
   /* display:none; */
 }
-footer h3 {
+section h3 {
   font-size: 30px;
 }
 table{
