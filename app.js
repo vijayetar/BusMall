@@ -20,6 +20,7 @@ var attempts = 25;
 var indexArray = [];
 var clickArray=[];
 var viewArray=[];
+var nameArray=[];
 
 //what sections are hidden
 hide(tableResults);
@@ -162,8 +163,8 @@ function handleClick(event) {
     show(graph);
     mostViewed();
     sectionComment();
-    makeclickandviewarray();
-    generateGraph();
+    makeclicknameandviewarray();
+    // generateGraph();
 
     return;
   } else {
@@ -224,10 +225,11 @@ function show(elem) {
   elem.style.display = 'block';
 }
 
-function makeclickandviewarray() {
+function makeclicknameandviewarray() {
   for (var k=0; k<picArray.length; k++) {
-    clickArray.push(picArray[i].clicked);
-    viewArray.push(picArray[i].viewed);
+    clickArray.push(picArray[k].clicked);
+    viewArray.push(picArray[k].viewed);
+    nameArray.push(picArray[k].title);
   }
 }
 
@@ -236,17 +238,37 @@ function generateGraph() {
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: nameArray,
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label: '# Clicked',
+            data: clickArray,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 206, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)'
+
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
@@ -254,10 +276,89 @@ function generateGraph() {
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)'
+
             ],
-            borderWidth: 1
-        }]
+            borderWidth: 2
+        },
+        {
+          label: '# Viewed',
+          data: viewArray,
+          backgroundColor: [
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)',
+              'rgba(0,0,0,0.2)'
+          ],
+          borderColor: [
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)',
+            'rgba(0,0,0,0.2)'
+          ],
+          borderWidth: 2
+      }]
     },
     options: {
         scales: {
@@ -268,7 +369,7 @@ function generateGraph() {
             }]
         }
     }
-});
+  });
 }
 
 createOnPageLoad();
