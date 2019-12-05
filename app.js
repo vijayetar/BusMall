@@ -10,6 +10,7 @@ var titleCaptions = document.getElementById('captions');
 var tableResults = document.getElementById('tableResults');
 var list = document.getElementById('list');
 var graph = document.getElementById('graph');
+var banner = document.getElementById('banner');
 
 
 //global variables
@@ -103,12 +104,14 @@ function handleClick(event) {
   event.preventDefault();
   // console.log('click worked');
   var vote = event.target.alt;
+  // removeBanner();
   //loop to check what I clicked and add a value to it
   for (var i =0; i<picArray.length; i++){
     if (vote === picArray[i].alt)
     {
       picArray[i].clicked ++;
       attempts --;
+      makeBanner(attempts);
     }
   }
   if (attempts === 0) {
@@ -173,7 +176,7 @@ function generateTable() {
     tableResults.appendChild(trEl);
   }
 }
-
+// functions to show and hide the various sections
 function hide(elem) {
   elem.style.display = 'none';
 }
@@ -181,6 +184,18 @@ function hide(elem) {
 function show(elem) {
   elem.style.display = 'block';
 }
+
+function makeBanner(attempts){
+  var hEl = document.createElement('h3');
+  hEl.className = 'bannerhead';
+  hEl.innerHTML= 'Please pick your <strong>favorite<strong> item! You have ' + attempts + ' remaining';
+  banner.appendChild(hEl);
+}
+
+// function removeBanner(){
+//   var removeEl = document.getElementsByClassName('bannerhead');
+//   banner.removeChild(removeEl);
+// }
 
 function makeclicknameandviewarray() {
   for (var k=0; k<picArray.length; k++) {
