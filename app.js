@@ -11,6 +11,7 @@ var tableResults = document.getElementById('tableResults');
 var list = document.getElementById('list');
 var graph = document.getElementById('graph');
 var banner = document.getElementById('banner');
+var imageEl = document.getElementById('images');
 
 
 //global variables
@@ -45,7 +46,7 @@ function Picture(src,name) {
   picArray.push(this);
 }
 
-// function to upload pictures into the array
+// On page load - this function will upload pictures into the array, generate graph, and the first set of images
 function createOnPageLoad() {
   new Picture('bag','StarWars themed carry-on');
   new Picture('banana','Banana Slicer');
@@ -67,6 +68,9 @@ function createOnPageLoad() {
   new Picture('usb','dragon tail usb');
   new Picture('water-can','A pointless watercan');
   new Picture('wine-glass','Wine glass to sniff and drink at the same time');
+  generateGraph();
+  generateLoopImages();
+
 }
 
 function generateLoopImages() {
@@ -88,14 +92,14 @@ function generateLoopImages() {
     imageArray[i].addEventListener('click',handleClick,false);
 
   }
-  console.log('this is the indexArray',indexArray);
+  // console.log('this is the indexArray',indexArray);
 
   // to make sure that the next three images are not the same as the last three images
   if(indexArray.length === 6) {
     for (var k=0; k<3; k++){
       indexArray.shift();
     }
-    console.log('this is the NEW indexArray',indexArray);
+    // console.log('this is the NEW indexArray',indexArray);
   }
 
 }
@@ -104,7 +108,6 @@ function handleClick(event) {
   event.preventDefault();
   // console.log('click worked');
   var vote = event.target.alt;
-  // removeBanner();
   //loop to check what I clicked and add a value to it
   for (var i =0; i<picArray.length; i++){
     if (vote === picArray[i].alt)
@@ -119,9 +122,11 @@ function handleClick(event) {
     for (var j=0; j<imageArray.length; j++){
       imageArray[j].removeEventListener('click',handleClick);
     }
-    show(tableResults);
+    // show(tableResults);
     show(list);
     show(graph);
+    hide(imageEl);
+    hide(titleCaptions);
     mostViewed();
     sectionComment();
     makeclicknameandviewarray();
@@ -185,17 +190,11 @@ function show(elem) {
   elem.style.display = 'block';
 }
 
-function makeBanner(attempts){
-  var hEl = document.createElement('h3');
-  hEl.className = 'bannerhead';
-  hEl.innerHTML= 'Please pick your <strong>favorite<strong> item! You have ' + attempts + ' remaining';
-  banner.appendChild(hEl);
+function makeBanner(number){
+  var h3El = document.getElementById('bannerhead');
+  h3El.textContent = `You have ${number} clicks remaining`;
+  banner.appendChild(h3El);
 }
-
-// function removeBanner(){
-//   var removeEl = document.getElementsByClassName('bannerhead');
-//   banner.removeChild(removeEl);
-// }
 
 function makeclicknameandviewarray() {
   for (var k=0; k<picArray.length; k++) {
@@ -345,5 +344,3 @@ function generateGraph() {
 }
 
 createOnPageLoad();
-generateGraph();
-generateLoopImages();
