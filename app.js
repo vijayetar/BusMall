@@ -349,5 +349,4 @@ function makeLocalStorage() {
   localStorage.setItem('picSelection3', stringAllpicArray);
 }
 
-makeLocalStorage();
 createOnPageLoad();
