@@ -94,14 +94,12 @@ function generateLoopImages() {
     titleCaptions.appendChild(titleArray[i]);
     imageArray[i].addEventListener('click', handleClick, false);
   }
-  // console.log('this is the indexArray',indexArray);
 
   // to make sure that the next three images are not the same as the last three images
   if (indexArray.length === 6) {
     for (var k = 0; k < 3; k++) {
       indexArray.shift();
     }
-    // console.log('this is the NEW indexArray',indexArray);
   }
 }
 
@@ -135,7 +133,6 @@ function handleClick(event) {
 
     return;
   } else {
-    // console.log('this is the current count',attempts);
     generateLoopImages();
   }
 }
