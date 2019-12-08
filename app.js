@@ -126,6 +126,7 @@ function handleClick(event) {
     show(graph);
     hide(imageEl);
     hide(titleCaptions);
+    hide(banner);
     mostViewed();
     sectionComment();
     makeclicknameandviewarray();
