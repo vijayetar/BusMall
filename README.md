@@ -18,6 +18,10 @@ OR
 ​
 `live-server` from the root of the project
 ​
+## *Comments about deployed site*
+
+*As of Dec 7, the live-server works but the deployed site is not rendering with an error message. I am speculating that this is because the deployed site does not have any images on local storage and so when it reaches line 51, it is unable to go forward where it is trying to fulfill the condition if the parsed array from local storage has any content. Unfortunately, I do not get the similar error message with live-server and so unable to trouble shoot it.* 
+
 ## Resources
 
 **This is the link to [google fonts](https://fonts.googleapis.com/css?family=Julee&display=swap) used in the page**
@@ -41,3 +45,4 @@ Collapse
 
 **JSON parse**
 [JSON parse function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse)
+
