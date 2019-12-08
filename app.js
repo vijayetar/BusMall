@@ -24,6 +24,7 @@ var indexArray = [];
 var clickArray = [];
 var viewArray = [];
 var nameArray = [];
+var parseAllpicArray = [];
 
 //what sections are hidden
 hide(tableResults);
@@ -47,10 +48,8 @@ function Picture(src, name) {
 
 // On page load - this function will upload pictures into the array, generate graph, and the first set of images
 function createOnPageLoad() {
-  var parseAllpicArray = JSON.parse(localStorage.getItem('picSelection'));
-  if (parseAllpicArray.length > 0) {
-    picArray = parseAllpicArray;
-  } else {
+  parseAllpicArray = JSON.parse(localStorage.getItem('picSelection'));
+  if (parseAllpicArray.length === 0) {
     new Picture('bag', 'StarWars themed carry-on');
     new Picture('banana', 'Banana Slicer');
     new Picture('bathroom', 'Ipad ToiletPaper stand');
@@ -71,6 +70,8 @@ function createOnPageLoad() {
     new Picture('usb', 'dragon tail usb');
     new Picture('water-can', 'A pointless watercan');
     new Picture('wine-glass', 'Wine glass to sniff and drink at the same time');
+  } else {
+    picArray = parseAllpicArray;
   }
   generateGraph();
   generateLoopImages();
