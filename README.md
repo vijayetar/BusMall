@@ -9,7 +9,7 @@
 ​
 **Author:** Vijayeta Rangarajan
 **Last Updated:** December 7, 2019
-**Deployed Site:** [Link]()
+**Deployed Site:** [BusMall](https://vijayetar.github.io/BusMall/)
 ​
 ## How to Run the App
 From the terminal `open index.html` from root of the project.
