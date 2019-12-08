@@ -24,6 +24,7 @@ var indexArray = [];
 var clickArray = [];
 var viewArray = [];
 var nameArray = [];
+var parseAllpicArray = [];
 
 //what sections are hidden
 hide(tableResults);
@@ -47,7 +48,6 @@ function Picture(src, name) {
 
 // On page load - this function will upload pictures into the array, generate graph, and the first set of images
 function createOnPageLoad() {
-  var parseAllpicArray = [];
   parseAllpicArray = JSON.parse(localStorage.getItem('picSelection'));
   if (parseAllpicArray.length > 0) {
     picArray = parseAllpicArray;
