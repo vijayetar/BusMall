@@ -48,8 +48,12 @@ function Picture(src, name) {
 
 // On page load - this function will upload pictures into the array, generate graph, and the first set of images
 function createOnPageLoad() {
-  parseAllpicArray = JSON.parse(localStorage.getItem('picSelection'));
-  if (picArray.length === 0) {
+  parseAllpicArray = JSON.parse(localStorage.getItem('picSelection6'));
+  if (parseAllpicArray){
+    picArray = parseAllpicArray;
+    // console.table('the new picArray',picArray);
+  }
+  else {
     new Picture('bag', 'StarWars themed carry-on');
     new Picture('banana', 'Banana Slicer');
     new Picture('bathroom', 'Ipad ToiletPaper stand');
@@ -70,8 +74,6 @@ function createOnPageLoad() {
     new Picture('usb', 'dragon tail usb');
     new Picture('water-can', 'A pointless watercan');
     new Picture('wine-glass', 'Wine glass to sniff and drink at the same time');
-  } else {
-    picArray = parseAllpicArray;
   }
   generateGraph();
   generateLoopImages();
@@ -144,7 +146,6 @@ function sectionComment() {
   countdown.textContent = 'Thank you for your participation!';
   countdown.textContent += mostClicked;
   result.appendChild(countdown);
-  // console.table(picArray);
 }
 
 function mostViewed() {
@@ -346,7 +347,7 @@ function generateGraph() {
 // function to make and retrieve local Storage
 function makeLocalStorage() {
   var stringAllpicArray = JSON.stringify(picArray);
-  localStorage.setItem('picSelection', stringAllpicArray);
+  localStorage.setItem('picSelection6', stringAllpicArray);
 }
 
 createOnPageLoad();
