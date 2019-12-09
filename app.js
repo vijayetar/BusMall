@@ -48,8 +48,8 @@ function Picture(src, name) {
 
 // On page load - this function will upload pictures into the array, generate graph, and the first set of images
 function createOnPageLoad() {
-  parseAllpicArray = JSON.parse(localStorage.getItem('picSelection3'));
-  if (parseAllpicArray.length === 0) {
+  parseAllpicArray = JSON.parse(localStorage.getItem('picSelection'));
+  if (picArray.length === 0) {
     new Picture('bag', 'StarWars themed carry-on');
     new Picture('banana', 'Banana Slicer');
     new Picture('bathroom', 'Ipad ToiletPaper stand');
@@ -346,7 +346,7 @@ function generateGraph() {
 // function to make and retrieve local Storage
 function makeLocalStorage() {
   var stringAllpicArray = JSON.stringify(picArray);
-  localStorage.setItem('picSelection3', stringAllpicArray);
+  localStorage.setItem('picSelection', stringAllpicArray);
 }
 
 createOnPageLoad();
