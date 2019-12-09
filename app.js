@@ -49,7 +49,8 @@ function Picture(src, name) {
 // On page load - this function will upload pictures into the array, generate graph, and the first set of images
 function createOnPageLoad() {
   parseAllpicArray = JSON.parse(localStorage.getItem('picSelection6'));
-  if (parseAllpicArray){
+  if(picArray.length > 0) {
+  // if (parseAllpicArray){
     picArray = parseAllpicArray;
     // console.table('the new picArray',picArray);
   }
