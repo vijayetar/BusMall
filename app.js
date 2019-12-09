@@ -48,10 +48,8 @@ function Picture(src, name) {
 
 // On page load - this function will upload pictures into the array, generate graph, and the first set of images
 function createOnPageLoad() {
-  // console.table('picArray',picArray);
   parseAllpicArray = JSON.parse(localStorage.getItem('picSelection6'));
   if (parseAllpicArray){
-    // console.table('parseAllpicArray',parseAllpicArray);
     picArray = parseAllpicArray;
     // console.table('the new picArray',picArray);
   }
@@ -76,7 +74,6 @@ function createOnPageLoad() {
     new Picture('usb', 'dragon tail usb');
     new Picture('water-can', 'A pointless watercan');
     new Picture('wine-glass', 'Wine glass to sniff and drink at the same time');
-    // picArray = parseAllpicArray;
   }
   generateGraph();
   generateLoopImages();
@@ -149,7 +146,6 @@ function sectionComment() {
   countdown.textContent = 'Thank you for your participation!';
   countdown.textContent += mostClicked;
   result.appendChild(countdown);
-  // console.table(picArray);
 }
 
 function mostViewed() {
