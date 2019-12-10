@@ -38,7 +38,7 @@ function randomIndex(max) {
 
 //make a constructor function for images so that they are also saved into a global array
 function Picture(src, name) {
-  this.src = `../images/${src}.jpg`;
+  this.src = `./images/${src}.jpg`;
   this.title = name;
   this.alt = name;
   this.clicked = 0;
@@ -49,8 +49,7 @@ function Picture(src, name) {
 // On page load - this function will upload pictures into the array, generate graph, and the first set of images
 function createOnPageLoad() {
   parseAllpicArray = JSON.parse(localStorage.getItem('picSelection6'));
-  if(picArray.length > 0) {
-  // if (parseAllpicArray){
+  if (parseAllpicArray){
     picArray = parseAllpicArray;
     // console.table('the new picArray',picArray);
   }
