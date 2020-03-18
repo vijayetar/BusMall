@@ -1,4 +1,26 @@
 'use strict';
+
+window.onload = function() {
+
+  var display = document.querySelector('#time'),
+      timer = new CountDownTimer(5);
+
+  timer.onTick(format)
+
+  // function restart() {
+  //   if (this.expired()) {
+  //     setTimeout(function() { timer.start(); }, 1000);
+  //   }
+  // }
+
+  function format(minutes, seconds) {
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    display.textContent = minutes + ':' + seconds;
+  }
+};
+
+
 //DOM variables
 var picOne = document.getElementById('imgOne');
 var picTwo = document.getElementById('imgTwo');
